@@ -5,7 +5,7 @@ matplotlib
 scikit-learn
 catboost
 xgboost
-Flask
+dill
 
 -e .
 # pip install -r requirements.txt
