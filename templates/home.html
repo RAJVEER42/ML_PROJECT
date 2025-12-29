@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exam Performance Indicator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --border-radius: 8px;
+            --accent-color: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            background-image: radial-gradient(#e1e1e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+       .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+       .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            margin-left: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+       .nav-links a.home-btn {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+       .nav-links a.home-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Main Container */
+       .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+       .form-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+       .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        select:focus, input[type="number"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+            background-color: white;
+        }
+
+       .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 1.5rem;
+        }
+
+       .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+       .result-box {
+            margin-top: 2rem;
+            padding: 15px;
+            background-color: #e8f8f5;
+            border: 1px solid #d1f2eb;
+            border-radius: var(--border-radius);
+            text-align: center;
+            color: #27ae60;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+       .footer-credits {
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+       .footer-credits i {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand"><i class="fas fa-chart-line"></i> StudentScore AI</div>
+        <div class="nav-links">
+            <a href="/" class="home-btn"><i class="fas fa-home"></i> Home</a>
+            <a href="https://github.com/RAJVEER42" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-card">
+            <h1>Exam Performance Predictor</h1>
+
+            <form action="{{ url_for('predict_datapoint')}}" method="post">
+                
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Select your Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ethnicity">Race or Ethnicity</label>
+                    <select id="ethnicity" name="ethnicity" required>
+                        <option value="" disabled selected>Select Ethnicity</option>
+                        <option value="group A">Group A</option>
+                        <option value="group B">Group B</option>
+                        <option value="group C">Group C</option>
+                        <option value="group D">Group D</option>
+                        <option value="group E">Group E</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="education">Parental Level of Education</label>
+                    <select id="education" name="parental_level_of_education" required>
+                        <option value="" disabled selected>Select Parent Education</option>
+                        <option value="associate's degree">Associate's Degree</option>
+                        <option value="bachelor's degree">Bachelor's Degree</option>
+                        <option value="high school">High School</option>
+                        <option value="master's degree">Master's Degree</option>
+                        <option value="some college">Some College</option>
+                        <option value="some high school">Some High School</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="lunch">Lunch Type</label>
+                    <select id="lunch" name="lunch" required>
+                        <option value="" disabled selected>Select Lunch Type</option>
+                        <option value="free/reduced">Free/Reduced</option>
+                        <option value="standard">Standard</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="test_course">Test Preparation Course</label>
+                    <select id="test_course" name="test_preparation_course" required>
+                        <option value="" disabled selected>Select Course Status</option>
+                        <option value="none">None</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reading_score">Writing Score (0-100)</label>
+                    <input id="reading_score" type="number" name="reading_score" placeholder="Enter Writing Score" min="0" max="100" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="writing_score">Reading Score (0-100)</label>
+                    <input id="writing_score" type="number" name="writing_score" placeholder="Enter Reading Score" min="0" max="100" required />
+                </div>
+
+                <div class="form-group">
+                    <input class="btn" type="submit" value="Predict Maths Score" />
+                </div>
+            </form>
+
+            {% if results %}
+            <div class="result-box">
+                <h2>Prediction: {{results}}</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <div>&copy; 2025 Student Exam Performance Indicator.</div>
+        <div class="footer-credits">
+            Made by <strong>Rajveer Bishnoi</strong> <i class="fas fa-code"></i> GitHub: <strong>RAJVEER42</strong>
+        </div>
+    </footer>
+
+</body>
+</html>

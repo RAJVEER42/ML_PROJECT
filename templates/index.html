@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exam Performance Indicator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --accent-color: #0984e3;
+            --human-color: #e17055; /* Warm color for Human element */
+            --ai-color: #6c5ce7;    /* Cool color for AI element */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            background-image: radial-gradient(#e1e1e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+       .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+       .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+       .nav-links a:hover {
+            color: var(--ai-color);
+        }
+
+        /* Hero Section */
+       .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: white;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+       .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+       .hero span.highlight {
+            color: var(--ai-color);
+            position: relative;
+        }
+
+       .hero span.highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(108, 92, 231, 0.2);
+            z-index: -1;
+        }
+
+       .hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+       .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+       .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(118, 75, 162, 0.4);
+        }
+
+        /* Dual Section: AI vs Human */
+       .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+       .info-card {
+            background: var(--glass-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+       .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Decorative top borders */
+       .card-human { border-top: 5px solid var(--human-color); }
+       .card-ai { border-top: 5px solid var(--ai-color); }
+
+       .icon-box {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+       .card-human.icon-box { color: var(--human-color); }
+       .card-ai.icon-box { color: var(--ai-color); }
+
+       .info-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+       .info-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+       .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+        }
+
+       .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-main);
+        }
+
+       .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+       .card-human.feature-list li::before { color: var(--human-color); }
+       .card-ai.feature-list li::before { color: var(--ai-color); }
+
+        /* Creator Badge */
+       .creator-badge {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+       .creator-badge img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+       .creator-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+
+       .creator-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            background: #2d3436;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #74b9ff;
+            text-decoration: none;
+        }
+
+        footer.heart { color: #e17055; animation: beat 1s infinite alternate; display: inline-block; }
+        footer.robot { color: #74b9ff; display: inline-block; }
+
+        @keyframes beat {
+            to { transform: scale(1.2); }
+        }
+
+        @media (max-width: 768px) {
+           .container { grid-template-columns: 1fr; }
+           .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand"><i class="fas fa-brain"></i> StudentScore AI</div>
+        <div class="nav-links">
+            <a href="https://github.com/RAJVEER42" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Where <span class="highlight">Human Potential</span> Meets <span class="highlight">AI Intelligence</span></h1>
+        <p>
+            An advanced predictive analytics tool designed to bridge the gap between student effort and academic outcomes. 
+            Input your demographics and history, and let our algorithm forecast your potential.
+        </p>
+        <a href="{{ url_for('predict_datapoint')}}" class="cta-button">
+            Try the Predictor <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+        </a>
+    </div>
+
+    <div class="container">
+        
+        <div class="info-card card-human">
+            <div class="icon-box"><i class="fas fa-user-graduate"></i></div>
+            <h2>The Human Context</h2>
+            <p>
+                Every student's journey is unique. This tool doesn't just look at numbers; it considers the socioeconomic and personal factors that shape a learning environment.
+            </p>
+            <ul class="feature-list">
+                <li>Analyzes Parental Education impact</li>
+                <li>Considers Test Preparation efforts</li>
+                <li>Respects Socio-economic backgrounds</li>
+            </ul>
+        </div>
+
+        <div class="info-card card-ai">
+            <div class="icon-box"><i class="fas fa-microchip"></i></div>
+            <h2>The AI Advantage</h2>
+            <p>
+                Powered by a Regression Machine Learning model trained on thousands of student records to provide unbiased, data-driven performance indicators.
+            </p>
+            <ul class="feature-list">
+                <li>High-accuracy Regression Algorithm</li>
+                <li>Pattern recognition in demographics</li>
+                <li>Instant data processing</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="creator-badge">
+        <div class="icon-box" style="font-size: 2rem; margin:0; color: #2d3436;"><i class="fas fa-code"></i></div>
+        <div class="creator-info">
+            <h3>Developed by Rajveer Bishnoi</h3>
+            <p>Open Source Contributor</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            Made with <span class="heart">❤</span> (Human) and <span class="robot"><i class="fas fa-robot"></i></span> (AI) 
+            by <strong>Rajveer Bishnoi</strong>
+        </p>
+        <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.7;">
+            Check out the code on <a href="https://github.com/RAJVEER42" target="_blank">GitHub: RAJVEER42</a>
+        </p>
+    </footer>
+
+</body>
+</html>
