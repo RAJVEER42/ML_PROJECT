@@ -60,18 +60,22 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push image to Amazon ECR
-        id: build-image
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
-          IMAGE_TAG: latest
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
+        IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          # Build a docker container and push it to ECR so that
-          # docker build . -t ec-repository:${TAG}
-          # docker push ec-repository:${TAG}
+          echo "Current directory:"
+          pwd
+          echo "Files:"
+          ls -la
+
+          IMAGE="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+           echo "Building image: $IMAGE"
+
+          docker buildx build --load -t "$IMAGE" .
+          docker push "$IMAGE"
+
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
