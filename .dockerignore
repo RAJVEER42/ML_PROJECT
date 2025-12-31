@@ -1,0 +1,24 @@
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv
+.env
+
+# Git
+.git
+.gitignore
+
+# Logs & build artifacts
+logs
+artifacts
+catboost_info
+
+# Notebooks
+notebook
+
+# OS files
+.DS_Store
