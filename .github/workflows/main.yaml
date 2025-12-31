@@ -101,3 +101,9 @@ jobs:
             --name mltest \
             -p 8080:8080 \
             315949462603.dkr.ecr.eu-north-1.amazonaws.com/student_performance:latest
+        
+      - name: Verify container
+        run: |
+          sleep 5
+          docker ps
+
