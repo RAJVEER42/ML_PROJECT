@@ -7,6 +7,8 @@ catboost
 xgboost
 flask
 dill
+gunicorn
+
 
 # -e .
 # pip install -r requirements.txt
