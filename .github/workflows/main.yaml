@@ -77,26 +77,24 @@ jobs:
   Continuous-Deployment:
     needs: build-and-push-ecr-image
     runs-on: self-hosted
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        
-
-
-      - name: Pull latest images
+      - name: Pull latest image from ECR
         run: |
-          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          docker pull 315949462603.dkr.ecr.eu-north-1.amazonaws.com/student_performance:latest
+
+      - name: Stop and remove old container
+        run: |
+          docker stop mltest || true
+          docker rm mltest || true
+
+      - name: Run new container
+        run: |
+          docker run -d \
+            --name mltest \
+            -p 8080:8080 \
+            315949462603.dkr.ecr.eu-north-1.amazonaws.com/student_performance:latest
+
 
       # - name: Stop and remove container if running
       #   run: |
