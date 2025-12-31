@@ -68,6 +68,7 @@ jobs:
           IMAGE="$(echo "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" | tr -d '\n')"
           echo "Building image: $IMAGE"
 
+
           docker buildx build --load -t "$IMAGE" .
           docker push "$IMAGE"
 
