@@ -8,5 +8,5 @@ xgboost
 flask
 dill
 
--e .
+# -e .
 # pip install -r requirements.txt
