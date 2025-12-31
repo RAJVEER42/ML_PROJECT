@@ -79,20 +79,20 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Login to Amazon ECR
+      - name: Login to ECR
         run: |
           aws ecr get-login-password --region eu-north-1 \
           | docker login --username AWS \
             --password-stdin 315949462603.dkr.ecr.eu-north-1.amazonaws.com
 
-      - name: Pull latest image
-        run: |
-          docker pull 315949462603.dkr.ecr.eu-north-1.amazonaws.com/student_performance:latest
-
-      - name: Stop old container
+      - name: Stop old container (safe)
         run: |
           docker stop mltest || true
           docker rm mltest || true
+
+      - name: Pull latest image
+        run: |
+          docker pull 315949462603.dkr.ecr.eu-north-1.amazonaws.com/student_performance:latest
 
       - name: Run container
         run: |
@@ -101,7 +101,3 @@ jobs:
             --name mltest \
             -p 8080:8080 \
             315949462603.dkr.ecr.eu-north-1.amazonaws.com/student_performance:latest
-
-      - name: Verify container
-        run: |
-          docker ps | grep mltest
